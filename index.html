@@ -8,6 +8,42 @@
     <title>PROJECT A-R-C-H-I-V-E</title>
     <link rel="stylesheet" media="only screen and (max-width: 800px)" href="mobile.css" async>
     <link rel="stylesheet" media="only screen and (min-width: 801px)" href="style.css" async>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "/photos/", // Change this to the URL of your photos directory
+                success: function(data) {
+                    $(data).find("a").attr("href", function(i, val) {
+                        if (val.match(/\.(jpe?g|png|gif)$/)) {
+                            // Create an image element to calculate the aspect ratio
+                            var img = new Image();
+                            img.src = val;
+                            img.onload = function() {
+                                var width = this.width;
+                                var height = this.height;
+                                var aspectRatio = width / height;
+                                var cssClass;
+
+                                // Determine the appropriate CSS class based on the aspect ratio
+                                if (aspectRatio > 1) {
+                                    cssClass = "thumbnail-land";
+                                } else if (aspectRatio < 1) {
+                                    cssClass = "thumbnail-ver";
+                                } else {
+                                    cssClass = "thumbnail-square";
+                                }
+
+                                // Append the image element with the appropriate CSS class
+                                $("#image-gallery").append("<img src='" + val + "' class='" + cssClass + "'>");
+                            };
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -42,31 +78,7 @@
             </div>
             <br>
 
-            <div class="content">
-                <img src="/photos/DSC08030.jpg" class="thumbnail-land">
-                <img src="/photos/DSC09048.jpg" class="thumbnail-land">
-                <img src="/photos/DSC09507.jpg" class="thumbnail-square">
-                <img src="/photos/DSC07937.jpg" class="thumbnail-land">
-                <img src="/photos/DSC08250.jpg" class="thumbnail-land">
-                <img src="/photos/DSC07586.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC09839.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC06416.jpg" class="thumbnail-land">
-                <img src="/photos/DSC06739.jpg" class="thumbnail-land">
-                <img src="/photos/DSC06904.jpg" class="thumbnail-land">
-                <img src="/photos/DSC09688.jpg" class="thumbnail-land">
-                <img src="/photos/DSC07127.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC09701.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC09883.jpg" class="thumbnail-land">
-                <img src="/photos/DSC00086.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC00627.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC01057.jpg" class="thumbnail-land">
-                <img src="/photos/DSC04009.jpg" class="thumbnail-land">
-                <img src="/photos/DSC02566.jpg" class="thumbnail-land">
-                <img src="/photos/DSC04471.jpg" class="thumbnail-land">
-                <img src="/photos/DSC04680.jpg" class="thumbnail-ver">
-                <img src="/photos/DSC04848.jpg" class="thumbnail-land">
-                <img src="/photos/DSC04978.jpg" class="thumbnail-land">
-            </div>
+            <div id="image-gallery"></div>
         </div>
     </main>
 
