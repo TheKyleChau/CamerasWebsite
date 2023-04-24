@@ -12,7 +12,7 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: "/photos/", // Change this to the URL of your photos directory
+                url: "https://cameras.kyle.day/photos/", // Change this to the URL of your photos directory
                 success: function(data) {
                     $(data).find("a").attr("href", function(i, val) {
                         if (val.match(/\.(jpe?g|png|gif)$/)) {
