@@ -1,3 +1,6 @@
 /photos/*
   Access-Control-Allow-Origin: *
-  X-Robots-Tag: nosnippet
+  ! Content-Security-Policy
+  
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
